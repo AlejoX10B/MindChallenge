@@ -1,0 +1,44 @@
+<!-- eslint-disable @angular-eslint/template/elements-content -->
+
+<h1 class="mb-5">Usuarios</h1>
+
+<p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="right">
+        <button pButton label="Añadir" icon="pi pi-plus" class="p-button-success mr-2"></button>
+        <button pButton label="Eliminar" icon="pi pi-trash" class="p-button-danger"></button>
+    </ng-template>
+</p-toolbar>
+
+<p-table [value]="users$ | async">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>
+                <p-tableHeaderCheckbox/>
+            </th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Lastname</th>
+            <th>Role</th>
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+        <tr>
+            <td>
+                <p-tableCheckbox [value]="user"/>
+            </td>
+            <td>{{ user.id }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.lastname }}</td>
+            <td>{{ user.role }}</td>
+            <td class="text-center">
+                <p-button type="button" icon="pi pi-pencil"
+                          size="small" styleClass="mr-3">
+                </p-button>
+                <p-button type="button" icon="pi pi-trash"
+                          severity="warning" size="small">
+                </p-button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
