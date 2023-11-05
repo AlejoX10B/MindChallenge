@@ -1,7 +1,9 @@
 import { Component, DestroyRef, OnInit, Signal, computed, inject } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
+import { AddUserComponent } from '../../components/user-form/user-form.component';
 import { UsersService } from '../../services/users.service';
 import { User } from '../../models';
 
@@ -10,11 +12,16 @@ import { User } from '../../models';
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
-  providers: [ConfirmationService, MessageService]
+  providers: [
+    ConfirmationService,
+    DialogService,
+    MessageService
+  ]
 })
 export class UsersComponent implements OnInit {
 
   private confirmService = inject(ConfirmationService)
+  private dialogService = inject(DialogService)
   private msgService = inject(MessageService)
   private usersService = inject(UsersService)
   private destroyRef = inject(DestroyRef)
@@ -30,6 +37,15 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     this._getUsers()
+  }
+
+  addOrEditUser(user: User | null) {
+    this.dialogService.open(AddUserComponent, {
+      header: 'Agregar nuevo usuario',
+      maximizable: false,
+      width: '50%',
+      data: user
+    })
   }
 
   deleteSelectedUsers() {

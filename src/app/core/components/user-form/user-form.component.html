@@ -1,0 +1,30 @@
+<form [formGroup]="userForm">
+    <div class="field">
+      <label for="role">Role</label>
+      <p-dropdown inputId="role"
+                  formControlName="role"
+                  optionLabel="label"
+                  optionValue="value"
+                  [options]="roles"/>
+    </div>
+
+    <div class="field">
+      <label for="name">Nombre</label>
+      <input pInputText errorChecker type="text" id="name" formControlName="name">
+    </div>
+
+    <div class="field">
+      <label for="lastname">Apellido</label>
+      <input pInputText errorChecker type="text" id="lastname" formControlName="lastname">
+    </div>
+
+    <div class="field">
+      <label for="email">Email</label>
+      <input pInputText errorChecker type="email" id="email" formControlName="email">
+    </div>
+
+    <div class="mt-5 buttons">
+      <p-button type="button" label="Cancelar" icon="pi pi-times" (onClick)="onCancel()"/>
+      <p-button type="button" label="Agregar" icon="pi pi-plus" (onClick)="onSave()"/>
+    </div>
+  </form>
