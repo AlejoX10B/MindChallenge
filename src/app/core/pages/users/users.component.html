@@ -4,15 +4,28 @@
 
 <p-toolbar styleClass="mb-4 gap-2">
     <ng-template pTemplate="right">
-        <button pButton label="Añadir" icon="pi pi-plus" class="p-button-success mr-2"></button>
-        <button pButton label="Eliminar" icon="pi pi-trash" class="p-button-danger"></button>
+        <p-button label="Añadir"
+                  icon="pi pi-plus"
+                  severity="success"
+                  styleClass="mr-2"
+                  (onClick)="users"/>
+
+        <p-button label="Eliminar"
+                  icon="pi pi-trash"
+                  severity="danger"
+                  [disabled]="selectedUsers.length <= 0"
+                  (onClick)="deleteSelectedUsers()"/>
     </ng-template>
 </p-toolbar>
 
-<p-table [value]="users$ | async">
+<p-table [value]="users()"
+         [rows]="10"
+         [paginator]="true"
+         [rowHover]="true"
+         [(selection)]="selectedUsers">
     <ng-template pTemplate="header">
         <tr>
-            <th>
+            <th class="w-4rem">
                 <p-tableHeaderCheckbox/>
             </th>
             <th>Id</th>
@@ -36,9 +49,16 @@
                           size="small" styleClass="mr-3">
                 </p-button>
                 <p-button type="button" icon="pi pi-trash"
-                          severity="warning" size="small">
+                          severity="warning" size="small"
+                          (onClick)="deleteUser(user)">
                 </p-button>
             </td>
         </tr>
     </ng-template>
+    <ng-template pTemplate="summary">
+        <div>En total hay {{ users() ? users()!.length : 0 }} usuarios.</div>
+    </ng-template>
 </p-table>
+
+<p-toast/>
+<p-confirmDialog/>
