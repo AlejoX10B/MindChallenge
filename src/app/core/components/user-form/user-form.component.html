@@ -25,6 +25,7 @@
 
     <div class="mt-5 buttons">
       <p-button type="button" label="Cancelar" icon="pi pi-times" (onClick)="onCancel()"/>
-      <p-button type="button" label="Agregar" icon="pi pi-plus" (onClick)="onSave()"/>
+      <p-button type="button" [label]="action === Actions.add ? 'Agregar' : 'Editar'"
+                icon="pi pi-plus" (onClick)="onSave()"/>
     </div>
   </form>

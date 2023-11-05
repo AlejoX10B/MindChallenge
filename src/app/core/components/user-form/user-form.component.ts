@@ -5,7 +5,12 @@ import { MessageService } from 'primeng/api';
 
 import { alphabeticValidator, emailValidator, markAllAsDirty } from '../../../shared/constants';
 import { UsersService } from '../../services/users.service';
-import { User } from '../../models';
+
+
+enum Actions {
+  add = 'add',
+  edit = 'edit',
+}
 
 
 @Component({
@@ -37,6 +42,9 @@ export class AddUserComponent implements OnInit {
   private msgService = inject(MessageService)
   private usersService = inject(UsersService)
 
+  Actions = Actions
+  action!: Actions
+
   userForm = new FormBuilder().group({
     id:       [null],
     name:     [null, [Validators.required, Validators.minLength(3), alphabeticValidator()]],
@@ -46,7 +54,12 @@ export class AddUserComponent implements OnInit {
   })
 
   ngOnInit() {
-    if (!this.conf.data) return
+    if (!this.conf.data) {
+      this.action = Actions.add
+      return
+    }
+
+    this.action = Actions.edit
     this.userForm.setValue(this.conf.data)
   }
 
@@ -65,25 +78,29 @@ export class AddUserComponent implements OnInit {
       return
     }
 
-    this.usersService.addUser(this.userForm.value as any)
-      .subscribe({
-         next: () => {
-          this.msgService.add({
-            severity: 'success',
-            summary: 'Éxito!',
-            detail: 'El usuario ha sido creado'
-          })
-         },
-         error: () => {
-          this.msgService.add({
-            severity: 'error',
-            summary: 'Error!',
-            detail: 'No se ha podido crear el usuario, revisa los datos'
-          })
-         }
-      })
-    
-    this.ref.close()
+    const actions = {
+      add: () => this.usersService.addUser(this.userForm.value as any),
+      edit: () => this.usersService.editUser(this.userForm.value as any),
+    }
+
+    actions[this.action]().subscribe({
+      next: () => {
+        this.msgService.add({
+          severity: 'success',
+          summary: 'Éxito!',
+          detail: `El usuario ha sido ${(this.action == Actions.add) ? 'creado' : 'editado'}`
+        })
+      },
+      error: () => {
+        this.msgService.add({
+          severity: 'error',
+          summary: 'Error!',
+          detail: `No se ha podido ${(this.action == Actions.add) ? 'crear' : 'editar'} el usuario, revisa los datos`
+        })
+      }
+    })
+
+    this.ref.close(true)
   }
 
 }

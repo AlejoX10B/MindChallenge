@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Signal, computed, inject, signal } from '@angular/core';
-import { Observable, catchError, forkJoin, map, merge, tap, throwError } from 'rxjs';
+import { Observable, catchError, forkJoin, map, tap, throwError } from 'rxjs';
 
 import { User } from '../models';
 
@@ -24,7 +24,7 @@ export class UsersService {
     return this.http.get<User[]>(`${this._url}/users`)
       .pipe(
         tap(users => this._users.set(users)),
-        catchError(e => throwError(() => e.error?.detail))
+        catchError(e => throwError(() => e.error))
       )
   }
 
@@ -32,7 +32,15 @@ export class UsersService {
     return this.http.post(`${this._url}/users`, user)
       .pipe(
         map(() => true),
-        catchError(e => throwError(() => e.error?.detail))
+        catchError(e => throwError(() => e.error))
+      )
+  }
+
+  editUser(user: User): Observable<boolean> {
+    return this.http.put(`${this._url}/users/${user.id}`, user)
+      .pipe(
+        map(() => true),
+        catchError(e => throwError(() => e.error))
       )
   }
 
@@ -40,7 +48,7 @@ export class UsersService {
     return this.http.delete(`${this._url}/users/${userId}`)
       .pipe(
         map(() => true),
-        catchError((e) => throwError(() => e.error?.detail))
+        catchError((e) => throwError(() => e.error))
       )
   }
 

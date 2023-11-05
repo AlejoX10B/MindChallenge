@@ -40,12 +40,14 @@ export class UsersComponent implements OnInit {
   }
 
   addOrEditUser(user: User | null) {
-    this.dialogService.open(AddUserComponent, {
-      header: 'Agregar nuevo usuario',
+    const ref = this.dialogService.open(AddUserComponent, {
+      header: `${(user == null) ? 'Añadir nuevo' : 'Editar'} usuario`,
       maximizable: false,
       width: '50%',
-      data: user
+      data: user,
     })
+
+    ref.onClose.subscribe((val) => {if (val) this._getUsers() })
   }
 
   deleteSelectedUsers() {
