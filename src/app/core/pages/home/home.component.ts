@@ -13,10 +13,10 @@ import { AuthService } from '../../../auth/services/auth.service';
           </header>
           <hr>
           <p-menu [model]="items" styleClass="menu"/>
+          <pre>{{ user() | json }}</pre>
       </aside>
       
       <main>
-          {{ user() | json }}
           <router-outlet/>
       </main>
     </body>

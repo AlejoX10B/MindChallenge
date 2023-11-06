@@ -8,8 +8,8 @@ import { UsersService } from '../../services/users.service';
 
 
 enum Actions {
-  add = 'add',
-  edit = 'edit',
+  Add = 'add',
+  Edit = 'edit',
 }
 
 
@@ -55,11 +55,11 @@ export class AddUserComponent implements OnInit {
 
   ngOnInit() {
     if (!this.conf.data) {
-      this.action = Actions.add
+      this.action = Actions.Add
       return
     }
 
-    this.action = Actions.edit
+    this.action = Actions.Edit
     this.userForm.setValue(this.conf.data)
   }
 
@@ -88,14 +88,14 @@ export class AddUserComponent implements OnInit {
         this.msgService.add({
           severity: 'success',
           summary: 'Éxito!',
-          detail: `El usuario ha sido ${(this.action == Actions.add) ? 'creado' : 'editado'}`
+          detail: `El usuario ha sido ${(this.action == Actions.Add) ? 'creado' : 'editado'}`
         })
       },
       error: () => {
         this.msgService.add({
           severity: 'error',
           summary: 'Error!',
-          detail: `No se ha podido ${(this.action == Actions.add) ? 'crear' : 'editar'} el usuario, revisa los datos`
+          detail: `No se ha podido ${(this.action == Actions.Add) ? 'crear' : 'editar'} el usuario, revisa los datos`
         })
       }
     })

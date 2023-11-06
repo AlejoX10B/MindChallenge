@@ -5,7 +5,7 @@ import { Observable, catchError, map, tap, throwError } from 'rxjs';
 
 import { environment as env } from '../../../environments/environment';
 
-import { Credentials } from '../models';
+import { AuthStatus, Credentials } from '../models';
 import { User } from '../../core/models';
 
 
@@ -19,19 +19,26 @@ export class AuthService {
   private router = inject(Router)
 
   private _user = signal<User | null>(null)
+  private _authStatus = signal<AuthStatus>(AuthStatus.NotAuthenticated)
+  
   user = computed(() => this._user())
+  authStatus = computed(() => this._authStatus())
 
 
   private _saveSession(user: User) {
-    this._user.set(user)
     localStorage.setItem('userId', String(user.id))
+
+    this._authStatus.set(AuthStatus.Authenticated)
+    this._user.set(user)
   }
 
 
   logout() {
     localStorage.removeItem('userId')
 
+    this._authStatus.set(AuthStatus.NotAuthenticated)
     this._user.set(null)
+
     this.router.navigateByUrl('/auth')
   }
 

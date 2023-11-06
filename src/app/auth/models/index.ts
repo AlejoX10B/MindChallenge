@@ -1,2 +1,2 @@
 
-export * from './credentials.models'
+export * from './auth.models'
