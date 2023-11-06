@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, Signal, computed, inject, signal } from '@angular/core';
 import { Observable, catchError, forkJoin, map, tap, throwError } from 'rxjs';
 
+import { environment as env } from '../../../environments/environment';
+
 import { User } from '../models';
 
 
@@ -9,8 +11,6 @@ import { User } from '../models';
   providedIn: 'root'
 })
 export class UsersService {
-
-  private _url = 'http://localhost:3000'
 
 
   private http = inject(HttpClient)
@@ -21,7 +21,9 @@ export class UsersService {
 
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this._url}/users`)
+    const url = `${env.backUrl}/${env.endpoints.users}`
+
+    return this.http.get<User[]>(url)
       .pipe(
         tap(users => this._users.set(users)),
         catchError(e => throwError(() => e.error))
@@ -29,7 +31,9 @@ export class UsersService {
   }
 
   addUser(user: User): Observable<boolean> {
-    return this.http.post(`${this._url}/users`, user)
+    const url = `${env.backUrl}/${env.endpoints.users}`
+
+    return this.http.post(url, user)
       .pipe(
         map(() => true),
         catchError(e => throwError(() => e.error))
@@ -37,7 +41,9 @@ export class UsersService {
   }
 
   editUser(user: User): Observable<boolean> {
-    return this.http.put(`${this._url}/users/${user.id}`, user)
+    const url = `${env.backUrl}/${env.endpoints.users}/${user.id}`
+
+    return this.http.put(url, user)
       .pipe(
         map(() => true),
         catchError(e => throwError(() => e.error))
@@ -45,7 +51,9 @@ export class UsersService {
   }
 
   deleteUser(userId: number): Observable<boolean> {
-    return this.http.delete(`${this._url}/users/${userId}`)
+    const url = `${env.backUrl}/${env.endpoints.users}/${userId}`
+    
+    return this.http.delete(url)
       .pipe(
         map(() => true),
         catchError((e) => throwError(() => e.error))

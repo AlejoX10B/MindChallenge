@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed, inject } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+
+import { AuthService } from '../../../auth/services/auth.service';
 
 
 @Component({
-  selector: 'app-home',
   template: `
     <body>
       <aside>
@@ -15,6 +16,7 @@ import { MenuItem } from 'primeng/api';
       </aside>
       
       <main>
+          {{ user() | json }}
           <router-outlet/>
       </main>
     </body>
@@ -23,43 +25,47 @@ import { MenuItem } from 'primeng/api';
 })
 export class HomeComponent implements OnInit {
 
-  items: MenuItem[] | undefined;
+
+  private authService = inject(AuthService)
+
+
+  items: MenuItem[] = [
+    {
+      label: 'Usuarios',
+      icon: 'pi pi-fw pi-users',
+      routerLink: '/users'
+    },
+    {
+      label: 'Cuentas',
+      icon: 'pi pi-fw pi-star',
+      routerLink: '/accounts'
+    },
+    {
+      label: 'Movimientos',
+      icon: 'pi pi-fw pi-calendar',
+      routerLink: '/'
+    },
+    {
+      separator: true
+    },
+    {
+      label: 'Mi usuario',
+      icon: 'pi pi-fw pi-user',
+      routerLink: '/'
+    },
+    {
+      separator: true
+    },
+    {
+      label: 'Cerrar sesión',
+      icon: 'pi pi-fw pi-power-off',
+      command: () => this.authService.logout()
+    }
+  ];
+
+  user = computed(() => this.authService.user())
 
   ngOnInit() {
-    this.items = [
-      {
-        label: 'Usuarios',
-        icon: 'pi pi-fw pi-users',
-        routerLink: '/users'
-      },
-      {
-        label: 'Cuentas',
-        icon: 'pi pi-fw pi-star',
-        routerLink: '/accounts'
-      },
-      {
-        label: 'Movimientos',
-        icon: 'pi pi-fw pi-calendar',
-        routerLink: '/'
-      },
-      {
-        separator: true
-      },
-      {
-        label: 'Mi usuario',
-        icon: 'pi pi-fw pi-user',
-        routerLink: '/'
-      },
-      {
-        separator: true
-      },
-      {
-        label: 'Cerrar sesión',
-        icon: 'pi pi-fw pi-power-off',
-        routerLink: '/auth/login'
-      }
-    ];
+    if (!this.user()) this.authService.getCurrentUser()?.subscribe()
   }
-
-
 }

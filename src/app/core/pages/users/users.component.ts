@@ -66,8 +66,7 @@ export class UsersComponent implements OnInit {
               this.msgService.add({
                 severity: 'success',
                 summary: 'Éxito!',
-                detail: 'Todos los usuarios se han eliminado',
-                life: 3000
+                detail: 'Todos los usuarios se han eliminado'
               })
               this._getUsers()
             },
@@ -75,8 +74,7 @@ export class UsersComponent implements OnInit {
               this.msgService.add({
                 severity: 'error',
                 summary: 'Error!',
-                detail: 'No se pudo eliminar los usuarios',
-                life: 3000
+                detail: 'No se pudo eliminar los usuarios'
               })
             }
           })
@@ -98,8 +96,7 @@ export class UsersComponent implements OnInit {
               this.msgService.add({
                 severity: 'success',
                 summary: 'Éxito!',
-                detail: 'Usuario eliminado',
-                life: 3000
+                detail: 'Usuario eliminado'
               })
               this._getUsers()
             },
@@ -107,8 +104,7 @@ export class UsersComponent implements OnInit {
               this.msgService.add({
                 severity: 'error',
                 summary: 'Error!',
-                detail: 'No se pudo eliminar el usuario',
-                life: 3000
+                detail: 'No se pudo eliminar el usuario'
               })
             }
           })
