@@ -1,6 +1,7 @@
 export const environment = {
-    backUrl: 'http://localhost:3000',
+    backUrl: 'http://192.168.1.36:3000',
     endpoints: {
-        users: 'users'
+        users: 'users',
+        accounts: 'accounts'
     }
 };
