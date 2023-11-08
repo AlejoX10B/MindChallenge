@@ -1,6 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable, catchError, map, tap, throwError } from 'rxjs';
 
 import { environment as env } from '../../../environments/environment';
@@ -16,13 +15,17 @@ export class AuthService {
 
 
   private http = inject(HttpClient)
-  private router = inject(Router)
 
   private _user = signal<User | null>(null)
   private _authStatus = signal<AuthStatus>(AuthStatus.NotAuthenticated)
   
   user = computed(() => this._user())
   authStatus = computed(() => this._authStatus())
+
+
+  constructor() {
+    this.getCurrentUser()?.subscribe()
+  }
 
 
   private _saveSession(user: User) {
@@ -38,8 +41,6 @@ export class AuthService {
 
     this._authStatus.set(AuthStatus.NotAuthenticated)
     this._user.set(null)
-
-    this.router.navigateByUrl('/auth')
   }
 
   login(credentials: Credentials): Observable<boolean> {
@@ -56,22 +57,25 @@ export class AuthService {
           this._saveSession(query[0])
           return true
         }),
-        catchError(e => throwError(() => e))
+        catchError(e => throwError(() => e.message))
       )
   }
 
   getCurrentUser(): Observable<User> | undefined {
     const userId = localStorage.getItem('userId')    
     if (!userId) {
-      this.router.navigateByUrl('/auth')
+      this.logout()
       return
     }
 
     const url = `${env.backUrl}/${env.endpoints.users}/${userId}`
     return this.http.get<User>(url)
       .pipe(
-        tap((user) => this._user.set(user)),
-        catchError(e => throwError(() => e))
+        tap((user) => this._saveSession(user)),
+        catchError(e => {
+          this._authStatus.set(AuthStatus.NotAuthenticated)
+          return throwError(() => e.message)
+        })
       )
   }
 }

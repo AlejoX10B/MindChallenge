@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 
 import { AuthService } from '../../../auth/services/auth.service';
@@ -13,7 +13,6 @@ import { AuthService } from '../../../auth/services/auth.service';
           </header>
           <hr>
           <p-menu [model]="items" styleClass="menu"/>
-          <pre>{{ user() | json }}</pre>
       </aside>
       
       <main>
@@ -23,11 +22,9 @@ import { AuthService } from '../../../auth/services/auth.service';
   `,
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
-
+export class HomeComponent {
 
   private authService = inject(AuthService)
-
 
   items: MenuItem[] = [
     {
@@ -62,10 +59,5 @@ export class HomeComponent implements OnInit {
       command: () => this.authService.logout()
     }
   ];
-
-  user = computed(() => this.authService.user())
-
-  ngOnInit() {
-    if (!this.user()) this.authService.getCurrentUser()?.subscribe()
-  }
+  
 }

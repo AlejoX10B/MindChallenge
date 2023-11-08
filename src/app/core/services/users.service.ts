@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, Signal, computed, inject, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { Observable, catchError, forkJoin, map, tap, throwError } from 'rxjs';
 
 import { environment as env } from '../../../environments/environment';
@@ -12,18 +12,16 @@ import { User } from '../models';
 })
 export class UsersService {
 
-
   private http = inject(HttpClient)
 
+  private _url = `${env.backUrl}/${env.endpoints.users}`
 
   private _users = signal<User[]>([])
-  users: Signal<User[]> = computed(() => this._users())
+  users = computed<User[]>(() => this._users())
 
 
   getUsers(): Observable<User[]> {
-    const url = `${env.backUrl}/${env.endpoints.users}`
-
-    return this.http.get<User[]>(url)
+    return this.http.get<User[]>(this._url)
       .pipe(
         tap(users => this._users.set(users)),
         catchError(e => throwError(() => e.error))
@@ -31,9 +29,7 @@ export class UsersService {
   }
 
   addUser(user: User): Observable<boolean> {
-    const url = `${env.backUrl}/${env.endpoints.users}`
-
-    return this.http.post(url, user)
+    return this.http.post(this._url, user)
       .pipe(
         map(() => true),
         catchError(e => throwError(() => e.error))
@@ -41,7 +37,7 @@ export class UsersService {
   }
 
   editUser(user: User): Observable<boolean> {
-    const url = `${env.backUrl}/${env.endpoints.users}/${user.id}`
+    const url = `${this._url}/${user.id}`
 
     return this.http.put(url, user)
       .pipe(
@@ -51,7 +47,7 @@ export class UsersService {
   }
 
   deleteUser(userId: number): Observable<boolean> {
-    const url = `${env.backUrl}/${env.endpoints.users}/${userId}`
+    const url = `${this._url}/${userId}`
     
     return this.http.delete(url)
       .pipe(

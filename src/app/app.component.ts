@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed, effect, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
+
+import { AuthService } from './auth/services/auth.service';
+
+import { AuthStatus } from './auth/models';
 
 
 @Component({
@@ -12,7 +17,21 @@ import { PrimeNGConfig } from 'primeng/api';
 export class AppComponent implements OnInit {
   title = 'Mind Challenge';
 
-  constructor(private primengConfig: PrimeNGConfig) {}
+  private authService = inject(AuthService)
+  private primengConfig = inject(PrimeNGConfig)
+  private router = inject(Router)
+
+  private _authStatus = computed(() => this.authService.authStatus())
+
+  authStatusChanged = effect(() => {
+    if (this._authStatus() === AuthStatus.NotAuthenticated) {
+      this.router.navigateByUrl('/auth')
+      return
+    }
+
+    this.router.navigateByUrl('')
+  })
+  
 
   ngOnInit() {
     this.primengConfig.ripple = true;
