@@ -29,13 +29,18 @@ export class UsersComponent implements OnInit {
   private msgService = inject(MessageService)
   private usersService = inject(UsersService)
 
-  
+
   readonly Roles = Roles
   
   users = computed<User[]>(() => this.usersService.users())
   isRestricted = computed<boolean>(() => this.authService.isRestricted())
 
   selectedUsers: User[] = []
+
+
+  constructor() {
+    this.isRowSelectable = this.isRowSelectable.bind(this)
+  }
 
 
   ngOnInit() {
@@ -47,6 +52,14 @@ export class UsersComponent implements OnInit {
     this.usersService.getUsers()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe()
+  }
+
+  isRowSelectable(event: any) {
+    return !this.isSuper(event.data)
+  }
+
+  isSuper(data: User) {
+    return data.role === Roles.Super
   }
 
   addOrEditUser(user: User | null) {
@@ -70,8 +83,7 @@ export class UsersComponent implements OnInit {
       rejectLabel: 'Cancelar',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.usersService.deleteUsers(
-          this.selectedUsers.map((user) => user.id))
+        this.usersService.deleteUsers(this.selectedUsers.map((user) => user.id))
           .subscribe({
             next: () => {
               this.selectedUsers = []

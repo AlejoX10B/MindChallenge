@@ -1,11 +1,13 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { switchMap } from 'rxjs';
 
 import { AuthService } from '../../../auth/services/auth.service';
 import { UsersService } from '../../services/users.service';
 
-import { alphabeticValidator, emailValidator, FULL_ROLES_OPTIONS, LANG_LEVEL_OPTIONS, markAllAsDirty, ROLES_OPTIONS, urlValidator } from '../../../shared/constants';
+import { alphabeticValidator, FULL_ROLES_OPTIONS, LANG_LEVEL_OPTIONS, markAllAsDirty, ROLES_OPTIONS, urlValidator } from '../../../shared/constants';
 import { Dropdown, Roles, User } from '../../../shared/models';
 import { FullUserForm } from '../../models';
 
@@ -44,6 +46,7 @@ export class ProfileComponent implements OnInit {
   
   private authService = inject(AuthService)
   private confirmService = inject(ConfirmationService)
+  private destroyRef = inject(DestroyRef)
   private msgService = inject(MessageService)
   private usersService = inject(UsersService)
   
@@ -92,6 +95,10 @@ export class ProfileComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.usersService.editUser(form.getRawValue() as FullUserForm)
+          .pipe(
+            switchMap(() => this.authService.getCurrentUser()),
+            takeUntilDestroyed(this.destroyRef)
+          )
           .subscribe({
             next: () => {
               this.msgService.add({

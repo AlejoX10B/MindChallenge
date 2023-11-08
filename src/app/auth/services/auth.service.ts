@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { Observable, catchError, map, tap, throwError } from 'rxjs';
+import { Observable, catchError, map, of, tap, throwError } from 'rxjs';
 
 import { environment as env } from '../../../environments/environment';
 
@@ -62,11 +62,11 @@ export class AuthService {
       )
   }
 
-  getCurrentUser(): Observable<User> | undefined {
+  getCurrentUser(): Observable<User|boolean> {
     const userId = localStorage.getItem('userId')    
     if (!userId) {
       this.logout()
-      return
+      return of(false)
     }
 
     const url = `${env.backUrl}/${env.endpoints.users}/${userId}`

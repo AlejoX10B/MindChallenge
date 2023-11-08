@@ -1,6 +1,13 @@
 import { Dropdown } from '../models'
 
 
+export const ROLE_NAMES = new Map([
+    ['SUPER', 'Super usuario'],
+    ['ADMIN', 'Administrador'],
+    ['USER', 'Usuario']
+])
+
+
 export const ROLES_OPTIONS: Dropdown[] = [
     { value: 'ADMIN', label: 'Administrador' },
     { value: 'USER', label: 'Usuario' },

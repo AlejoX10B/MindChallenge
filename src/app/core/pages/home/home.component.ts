@@ -3,7 +3,8 @@ import { MenuItem } from 'primeng/api';
 
 import { AuthService } from '../../../auth/services/auth.service';
 
-import { Roles } from '../../../shared/models';
+import { Roles, User } from '../../../shared/models';
+import { ROLE_NAMES } from '../../../shared/constants';
 
 
 @Component({
@@ -11,7 +12,8 @@ import { Roles } from '../../../shared/models';
     <body>
       <aside>
           <header>
-              <h1>App</h1>
+              <h1>{{ user()?.fullname }}</h1>
+              <h5>{{ ROLE_NAMES.get(user()?.role || '') }}</h5>
           </header>
           <hr>
           <p-menu [model]="items" styleClass="menu"/>
@@ -26,9 +28,15 @@ import { Roles } from '../../../shared/models';
 })
 export class HomeComponent {
 
+  readonly ROLE_NAMES = ROLE_NAMES
+
+
   private authService = inject(AuthService)
 
+
   private _isRestricted = computed<boolean>(() => this.authService.currentUser()?.role === Roles.User)
+  
+  user = computed<User|null>(() => this.authService.currentUser())
 
   items: MenuItem[] = [
     {

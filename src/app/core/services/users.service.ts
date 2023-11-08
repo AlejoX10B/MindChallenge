@@ -6,7 +6,7 @@ import { environment as env } from '../../../environments/environment';
 
 import { AuthService } from '../../auth/services/auth.service';
 
-import { User, Roles } from '../../shared/models';
+import { User } from '../../shared/models';
 import { FullUserForm, UserForm } from '../models';
 
 
@@ -22,7 +22,6 @@ export class UsersService {
 
   private _users = signal<User[]>([])
   private _currentUser = computed<User|null>(() => this.authService.currentUser())
-  private _isRestricted = computed<boolean>(() => this.authService.isRestricted())
 
   users = computed<User[]>(() => this._users())
 

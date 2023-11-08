@@ -21,10 +21,12 @@
     </ng-template>
 </p-toolbar>
 
-<p-table [value]="users()"
+<p-table dataKey="id"
+         [value]="users()"
          [rows]="4"
          [paginator]="true"
          [rowHover]="true"
+         [rowSelectable]="isRowSelectable"
          [(selection)]="selectedUsers">
     <ng-template pTemplate="header">
         <tr>
@@ -41,7 +43,7 @@
     <ng-template pTemplate="body" let-user>
         <tr>
             <td>
-                <p-tableCheckbox [value]="user"/>
+                <p-tableCheckbox [value]="user" [disabled]="isSuper(user)"/>
             </td>
             <td>{{ user.id }}</td>
             <td>{{ user.fullname }}</td>
