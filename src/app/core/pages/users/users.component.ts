@@ -7,7 +7,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { UsersService } from '../../services/users.service';
 import { AddUserComponent } from '../../components/user-form/user-form.component';
 
-import { User } from '../../../shared/models';
+import { Roles, User } from '../../../shared/models';
 
 
 @Component({
@@ -29,6 +29,8 @@ export class UsersComponent implements OnInit {
   private msgService = inject(MessageService)
   private usersService = inject(UsersService)
 
+  
+  readonly Roles = Roles
   
   users = computed<User[]>(() => this.usersService.users())
   isRestricted = computed<boolean>(() => this.authService.isRestricted())

@@ -28,11 +28,7 @@ export class UsersService {
 
 
   getUsers(): Observable<User[]> {
-    let params = new HttpParams().append('id_ne', this._currentUser()?.id || '')
-    
-    if(this._isRestricted()) {
-      params = params.append('role_ne', Roles.Super)
-    }
+    const params = new HttpParams().append('id_ne', this._currentUser()?.id || '')
 
     return this.http.get<User[]>(this._url, { params })
       .pipe(

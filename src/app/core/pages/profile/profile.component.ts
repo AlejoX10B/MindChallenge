@@ -20,12 +20,17 @@ import { FullUserForm } from '../../models';
       width: 100%;
     }
 
-    .buttons {
+    :host ::ng-deep .p-fieldset {
+      height: 100%;
+    }
+
+    .fieldsets {
       gap: 1rem;
-      width: 100%;
       display: flex;
-      align-items: center;
-      justify-content: space-evenly;
+
+      p-fieldset {
+        flex: 1;
+      }
     }
   `],
   providers: [
@@ -48,9 +53,9 @@ export class ProfileComponent implements OnInit {
 
   userForm = new FormBuilder().group({
     id:         [null, [Validators.required]],
-    role:       [null, [Validators.required]],
+    role:       [{value: null, disabled: true}, [Validators.required]],
     fullname:   [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50), alphabeticValidator()]],
-    email:      [null, [Validators.required, emailValidator()]],
+    email:      [{value: null, disabled: true}, [Validators.required]],
     password:   [null, [Validators.required, Validators.minLength(4), Validators.maxLength(12)]],
     engLevel:   [null, [Validators.required]],
     knowledge:  [null, [Validators.minLength(2), Validators.maxLength(520)]],
@@ -64,7 +69,6 @@ export class ProfileComponent implements OnInit {
       : ROLES_OPTIONS
     
     this.userForm.patchValue(this._currentUser() as any)
-    this.userForm.disable()
   }
 
   onSave() {
@@ -75,7 +79,7 @@ export class ProfileComponent implements OnInit {
       this.msgService.add({
         severity: 'error',
         summary: 'Error!',
-        detail: 'No se ha podido crear el usuario, revisa los datos'
+        detail: 'Parece que faltan datos o hay datos incorrectos'
       })
       return
     }
@@ -87,7 +91,7 @@ export class ProfileComponent implements OnInit {
       rejectLabel: 'Cancelar',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.usersService.editUser(form.value as FullUserForm)
+        this.usersService.editUser(form.getRawValue() as FullUserForm)
           .subscribe({
             next: () => {
               this.msgService.add({

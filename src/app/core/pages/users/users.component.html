@@ -41,7 +41,7 @@
     <ng-template pTemplate="body" let-user>
         <tr>
             <td>
-                <p-tableCheckbox [value]="user" [disabled]=""/>
+                <p-tableCheckbox [value]="user"/>
             </td>
             <td>{{ user.id }}</td>
             <td>{{ user.fullname }}</td>
@@ -50,10 +50,12 @@
             <td class="text-center">
                 <p-button type="button" icon="pi pi-pencil"
                           size="small" styleClass="mr-3 p-button-rounded"
+                          [disabled]="user.role === Roles.Super"
                           (onClick)="addOrEditUser(user)">
                 </p-button>
                 <p-button type="button" icon="pi pi-trash"
                           size="small" styleClass="p-button-rounded p-button-warning"
+                          [disabled]="user.role === Roles.Super"
                           (onClick)="deleteUser(user)">
                 </p-button>
             </td>
