@@ -1,4 +1,4 @@
-import { UserRoles } from '../../shared/models';
+import { Roles } from '../../shared/models';
 
 
 export interface UserForm {
@@ -7,5 +7,5 @@ export interface UserForm {
     lastname:   string | null;
     email:      string | null;
     password:   string | null;
-    role:       UserRoles | null;
+    role:       Roles | null;
 }

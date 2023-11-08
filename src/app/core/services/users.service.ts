@@ -6,7 +6,7 @@ import { environment as env } from '../../../environments/environment';
 
 import { AuthService } from '../../auth/services/auth.service';
 
-import { User, UserRoles } from '../../shared/models';
+import { User, Roles } from '../../shared/models';
 import { UserForm } from '../models';
 
 
@@ -31,7 +31,7 @@ export class UsersService {
     let params = new HttpParams().append('id_ne', this._currentUser()?.id || '')
     
     if(this._isRestricted()) {
-      params = params.append('role_ne', UserRoles.Super)
+      params = params.append('role_ne', Roles.Super)
     }
 
     return this.http.get<User[]>(this._url, { params })

@@ -1,7 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 
 import { AuthService } from '../../../auth/services/auth.service';
+
+import { Roles } from '../../../shared/models';
 
 
 @Component({
@@ -26,29 +28,34 @@ export class HomeComponent {
 
   private authService = inject(AuthService)
 
+  private _isRestricted = computed<boolean>(() => this.authService.currentUser()?.role === Roles.User)
+
   items: MenuItem[] = [
     {
       label: 'Usuarios',
       icon: 'pi pi-fw pi-users',
-      routerLink: '/users'
+      routerLink: '/users',
+      disabled: this._isRestricted()
     },
     {
       label: 'Cuentas',
       icon: 'pi pi-fw pi-star',
-      routerLink: '/accounts'
+      routerLink: '/accounts',
+      disabled: this._isRestricted()
     },
-    {
+    /* {
       label: 'Movimientos',
       icon: 'pi pi-fw pi-calendar',
-      routerLink: '/'
-    },
+      routerLink: '/',
+      disabled: this._isRestricted()
+    }, */
     {
       separator: true
     },
     {
       label: 'Mi usuario',
       icon: 'pi pi-fw pi-user',
-      routerLink: '/'
+      routerLink: '/profile'
     },
     {
       separator: true

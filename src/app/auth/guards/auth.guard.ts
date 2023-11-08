@@ -5,7 +5,7 @@ import { AuthService } from '../services/auth.service';
 import { AuthStatus } from '../models';
 
 
-export const isAuthenticatedGuard: CanActivateFn = () => {
+export const isLoggedIn: CanActivateFn = () => {
   
   const authService = inject(AuthService)
   const router = inject(Router)
@@ -17,7 +17,7 @@ export const isAuthenticatedGuard: CanActivateFn = () => {
   return router.navigateByUrl('/auth/login')
 };
 
-export const isNotLoggedGuard: CanActivateFn = () => {
+export const isNotLoggedIn: CanActivateFn = () => {
   
   const authService = inject(AuthService)
   const router = inject(Router)

@@ -9,7 +9,10 @@ import { HomeComponent } from './pages/home/home.component';
 import { UsersComponent } from './pages/users/users.component';
 import { AccountsComponent } from './pages/accounts/accounts.component';
 import { AddUserComponent } from './components/user-form/user-form.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+
 import { ErrorCheckerDirective } from '../shared/directives/error-checker.directive';
+
 
 
 @NgModule({
@@ -17,14 +20,15 @@ import { ErrorCheckerDirective } from '../shared/directives/error-checker.direct
     HomeComponent,
     UsersComponent,
     AccountsComponent,
-    AddUserComponent
+    AddUserComponent,
+    ProfileComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     PrimengModule,
     CoreRoutingModule,
-    ErrorCheckerDirective
+    ErrorCheckerDirective,
   ]
 })
 export class CoreModule { }
