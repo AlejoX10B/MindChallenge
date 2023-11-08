@@ -7,12 +7,13 @@
 
 <p-toolbar styleClass="mb-4 gap-2">
     <ng-template pTemplate="right">
-        <p-button label="Añadir"
+        <p-button label="Crear usuario"
                   icon="pi pi-plus"
                   styleClass="mr-2 p-button-success"
+                  [disabled]="isRestricted()"
                   (onClick)="addOrEditUser(null)"/>
 
-        <p-button label="Eliminar"
+        <p-button label="Eliminar seleccionados"
                   icon="pi pi-trash"
                   styleClass="p-button-danger"
                   [disabled]="selectedUsers.length <= 0"
@@ -31,8 +32,7 @@
                 <p-tableHeaderCheckbox/>
             </th>
             <th>Id</th>
-            <th>Name</th>
-            <th>Lastname</th>
+            <th>Nombre</th>
             <th>Email</th>
             <th>Role</th>
             <th></th>
@@ -41,11 +41,10 @@
     <ng-template pTemplate="body" let-user>
         <tr>
             <td>
-                <p-tableCheckbox [value]="user"/>
+                <p-tableCheckbox [value]="user" [disabled]=""/>
             </td>
             <td>{{ user.id }}</td>
-            <td>{{ user.name }}</td>
-            <td>{{ user.lastname }}</td>
+            <td>{{ user.fullname }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.role }}</td>
             <td class="text-center">

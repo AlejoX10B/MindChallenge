@@ -3,8 +3,11 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 
-import { alphabeticValidator, emailValidator, markAllAsDirty } from '../../../shared/constants';
 import { UsersService } from '../../services/users.service';
+
+import { alphabeticValidator, emailValidator, markAllAsDirty } from '../../../shared/constants';
+
+import { UserForm } from '../../models';
 
 
 enum Actions {
@@ -15,7 +18,9 @@ enum Actions {
 
 @Component({
   styles: [`
-    :host ::ng-deep .p-dropdown {
+    :host ::ng-deep .p-dropdown,
+    :host ::ng-deep .p-password,
+    :host ::ng-deep .p-password-input {
       width: 100%;
     }
     
@@ -32,7 +37,6 @@ enum Actions {
 export class AddUserComponent implements OnInit {
 
   roles = [
-    { value: 'SUPER', label: 'Superuser' },
     { value: 'ADMIN', label: 'Administrador' },
     { value: 'USER', label: 'Usuario' },
   ]
@@ -47,9 +51,9 @@ export class AddUserComponent implements OnInit {
 
   userForm = new FormBuilder().group({
     id:       [null],
-    name:     [null, [Validators.required, Validators.minLength(3), alphabeticValidator()]],
-    lastname: [null, [Validators.required, Validators.minLength(3), alphabeticValidator()]],
+    fullname: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(50), alphabeticValidator()]],
     email:    [null, [Validators.required, emailValidator()]],
+    password: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(12)]],
     role:     [null, [Validators.required]]
   })
 
@@ -79,8 +83,8 @@ export class AddUserComponent implements OnInit {
     }
 
     const actions = {
-      add: () => this.usersService.addUser(this.userForm.value as any),
-      edit: () => this.usersService.editUser(this.userForm.value as any),
+      add: () => this.usersService.addUser(this.userForm.value as UserForm),
+      edit: () => this.usersService.editUser(this.userForm.value as UserForm),
     }
 
     actions[this.action]().subscribe({

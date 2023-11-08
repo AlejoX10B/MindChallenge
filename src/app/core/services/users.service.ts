@@ -1,10 +1,13 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Observable, catchError, forkJoin, map, tap, throwError } from 'rxjs';
 
 import { environment as env } from '../../../environments/environment';
 
-import { User } from '../models';
+import { AuthService } from '../../auth/services/auth.service';
+
+import { User, UserRoles } from '../../shared/models';
+import { UserForm } from '../models';
 
 
 @Injectable({
@@ -13,22 +16,32 @@ import { User } from '../models';
 export class UsersService {
 
   private http = inject(HttpClient)
+  private authService = inject(AuthService)
 
   private _url = `${env.backUrl}/${env.endpoints.users}`
 
   private _users = signal<User[]>([])
+  private _currentUser = computed<User|null>(() => this.authService.currentUser())
+  private _isRestricted = computed<boolean>(() => this.authService.isRestricted())
+
   users = computed<User[]>(() => this._users())
 
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this._url)
+    let params = new HttpParams().append('id_ne', this._currentUser()?.id || '')
+    
+    if(this._isRestricted()) {
+      params = params.append('role_ne', UserRoles.Super)
+    }
+
+    return this.http.get<User[]>(this._url, { params })
       .pipe(
         tap(users => this._users.set(users)),
         catchError(e => throwError(() => e.error))
       )
   }
 
-  addUser(user: User): Observable<boolean> {
+  addUser(user: UserForm): Observable<boolean> {
     return this.http.post(this._url, user)
       .pipe(
         map(() => true),
@@ -36,7 +49,7 @@ export class UsersService {
       )
   }
 
-  editUser(user: User): Observable<boolean> {
+  editUser(user: UserForm): Observable<boolean> {
     const url = `${this._url}/${user.id}`
 
     return this.http.put(url, user)

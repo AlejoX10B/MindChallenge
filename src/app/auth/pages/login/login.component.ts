@@ -3,8 +3,9 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 
-import { emailValidator, markAllAsDirty } from '../../../shared/constants';
 import { AuthService } from '../../services/auth.service';
+
+import { emailValidator, markAllAsDirty } from '../../../shared/constants';
 
 
 @Component({

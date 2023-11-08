@@ -1,11 +1,13 @@
-import { Component, DestroyRef, OnInit, Signal, computed, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, computed, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { AddUserComponent } from '../../components/user-form/user-form.component';
+import { AuthService } from '../../../auth/services/auth.service';
 import { UsersService } from '../../services/users.service';
-import { User } from '../../models';
+import { AddUserComponent } from '../../components/user-form/user-form.component';
+
+import { User } from '../../../shared/models';
 
 
 @Component({
@@ -20,23 +22,29 @@ import { User } from '../../models';
 })
 export class UsersComponent implements OnInit {
 
+  private authService = inject(AuthService)
   private confirmService = inject(ConfirmationService)
+  private destroyRef = inject(DestroyRef)
   private dialogService = inject(DialogService)
   private msgService = inject(MessageService)
   private usersService = inject(UsersService)
-  private destroyRef = inject(DestroyRef)
+
+  
+  users = computed<User[]>(() => this.usersService.users())
+  isRestricted = computed<boolean>(() => this.authService.isRestricted())
 
   selectedUsers: User[] = []
-  users: Signal<User[]> = computed(() => this.usersService.users())
+
+
+  ngOnInit() {
+    this._getUsers()
+  }
+
 
   private _getUsers() {
     this.usersService.getUsers()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe()
-  }
-
-  ngOnInit() {
-    this._getUsers()
   }
 
   addOrEditUser(user: User | null) {
@@ -51,6 +59,8 @@ export class UsersComponent implements OnInit {
   }
 
   deleteSelectedUsers() {
+    if (this.selectedUsers.length == 0) return
+
     this.confirmService.confirm({
       header: 'Eliminar usuarios',
       message: 'Estás seguro que deseas eliminar los usuarios seleccionados?',
@@ -66,7 +76,7 @@ export class UsersComponent implements OnInit {
               this.msgService.add({
                 severity: 'success',
                 summary: 'Éxito!',
-                detail: 'Todos los usuarios se han eliminado'
+                detail: 'Los usuarios seleccionados se han eliminado'
               })
               this._getUsers()
             },
@@ -74,18 +84,18 @@ export class UsersComponent implements OnInit {
               this.msgService.add({
                 severity: 'error',
                 summary: 'Error!',
-                detail: 'No se pudo eliminar los usuarios'
+                detail: 'No se pudo eliminar los usuarios seleccionados'
               })
             }
           })
       }
-    });
+    })
   }
 
   deleteUser(user: User) {
     this.confirmService.confirm({
       header: 'Eliminar usuario',
-      message: `Seguro que quieres eliminar al usuario: ${user.name} ${user.lastname} ?`,
+      message: `Seguro que quieres eliminar al usuario: ${user.fullname}?`,
       acceptLabel: 'Eliminar',
       rejectLabel: 'Cancelar',
       icon: 'pi pi-exclamation-triangle',
@@ -109,7 +119,7 @@ export class UsersComponent implements OnInit {
             }
           })
       }
-    });
+    })
   }
 
 }

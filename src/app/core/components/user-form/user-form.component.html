@@ -2,6 +2,7 @@
     <div class="field">
       <label for="role">Role</label>
       <p-dropdown inputId="role"
+                  placeholder="Selecciona un rol"
                   formControlName="role"
                   optionLabel="label"
                   optionValue="value"
@@ -9,18 +10,31 @@
     </div>
 
     <div class="field">
-      <label for="name">Nombre</label>
-      <input pInputText errorChecker type="text" id="name" formControlName="name">
-    </div>
-
-    <div class="field">
-      <label for="lastname">Apellido</label>
-      <input pInputText errorChecker type="text" id="lastname" formControlName="lastname">
+      <label for="fullname">Nombre completo</label>
+      <input pInputText errorChecker type="text" id="fullname" formControlName="fullname">
     </div>
 
     <div class="field">
       <label for="email">Email</label>
       <input pInputText errorChecker type="email" id="email" formControlName="email">
+    </div>
+
+    <div class="field">
+      <label for="password">Contraseña</label>
+      <p-password errorChecker
+                  inputId="password"
+                  promptLabel="Escoge una contraseña"
+                  formControlName="password"
+                  [feedback]="false"
+                  [toggleMask]="true">
+
+        <ng-template pTemplate="footer">
+          <ul class="pl-2 ml-2 mt-0">
+            <li>Mínimo 4 caracteres</li>
+            <li>Máximo 8 caracteres</li>
+          </ul>
+      </ng-template>
+    </p-password>
     </div>
 
     <div class="mt-5 buttons">

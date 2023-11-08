@@ -5,7 +5,7 @@ import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { environment as env } from '../../../environments/environment';
 
 import { AuthStatus, Credentials } from '../models';
-import { User } from '../../core/models';
+import { User, UserRoles } from '../../shared/models';
 
 
 @Injectable({
@@ -19,8 +19,9 @@ export class AuthService {
   private _user = signal<User | null>(null)
   private _authStatus = signal<AuthStatus>(AuthStatus.NotAuthenticated)
   
-  user = computed(() => this._user())
+  currentUser = computed(() => this._user())
   authStatus = computed(() => this._authStatus())
+  isRestricted = computed(() => this._user()?.role !== UserRoles.Super)
 
 
   constructor() {
