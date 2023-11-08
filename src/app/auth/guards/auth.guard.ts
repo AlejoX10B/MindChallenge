@@ -23,8 +23,7 @@ export const isNotLoggedIn: CanActivateFn = () => {
   const router = inject(Router)
 
   if (authService.authStatus() === AuthStatus.Authenticated) {
-    router.navigateByUrl('')
-    return false
+    return router.navigateByUrl('/')
   }
 
   return true

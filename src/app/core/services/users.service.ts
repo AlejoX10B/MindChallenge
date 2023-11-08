@@ -7,7 +7,7 @@ import { environment as env } from '../../../environments/environment';
 import { AuthService } from '../../auth/services/auth.service';
 
 import { User, Roles } from '../../shared/models';
-import { UserForm } from '../models';
+import { FullUserForm, UserForm } from '../models';
 
 
 @Injectable({
@@ -49,7 +49,7 @@ export class UsersService {
       )
   }
 
-  editUser(user: UserForm): Observable<boolean> {
+  editUser(user: UserForm | FullUserForm): Observable<boolean> {
     const url = `${this._url}/${user.id}`
 
     return this.http.put(url, user)

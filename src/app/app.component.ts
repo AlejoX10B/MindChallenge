@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
       return
     }
 
-    this.router.navigateByUrl('')
+    this.router.navigateByUrl('/')
   })
   
 

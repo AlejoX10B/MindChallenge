@@ -2,8 +2,9 @@ import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angu
 
 
 const ALPHABETIC_REGEX = new RegExp('^[a-záéíóúñü\\s]+$', 'i')
-const EMAIL_REGEX = new RegExp('^[\\w.-]+@[\\w.-]+\\.\\w+$');
+const EMAIL_REGEX = new RegExp('^[\\w.-]+@[\\w.-]+\\.\\w+$')
 const PASSWORD_REGEX = new RegExp('^(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,}$')
+const URL_REGEX = new RegExp('^((https?:\\/\\/)?(www\\.)?([a-zA-Z0-9-]+)\\.[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})?([/?].*)?)$')
 
 
 // Generic custom validators
@@ -30,6 +31,14 @@ export function passwordValidator(): ValidatorFn {
     if (!control.value) return null
 
     return (PASSWORD_REGEX.test(control.value)) ? null : { password: true }
+  }
+}
+
+export function urlValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (!control.value) return null
+
+    return (URL_REGEX.test(control.value)) ? null : { url: true }
   }
 }
 

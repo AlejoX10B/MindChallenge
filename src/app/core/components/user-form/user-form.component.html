@@ -6,6 +6,7 @@
                   formControlName="role"
                   optionLabel="label"
                   optionValue="value"
+                  appendTo="body"
                   [options]="roles"/>
     </div>
 
@@ -25,7 +26,8 @@
                   inputId="password"
                   promptLabel="Escoge una contraseña"
                   formControlName="password"
-                  [feedback]="false"
+                  appendTo="body"
+                  [feedback]="true"
                   [toggleMask]="true">
 
         <ng-template pTemplate="footer">

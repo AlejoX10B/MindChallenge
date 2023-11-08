@@ -5,7 +5,7 @@ import { MessageService } from 'primeng/api';
 
 import { UsersService } from '../../services/users.service';
 
-import { alphabeticValidator, emailValidator, markAllAsDirty } from '../../../shared/constants';
+import { alphabeticValidator, emailValidator, markAllAsDirty, ROLES_OPTIONS } from '../../../shared/constants';
 
 import { UserForm } from '../../models';
 
@@ -17,6 +17,8 @@ enum Actions {
 
 
 @Component({
+  selector: 'app-user-form',
+  templateUrl: './user-form.component.html',
   styles: [`
     :host ::ng-deep .p-dropdown,
     :host ::ng-deep .p-password,
@@ -32,21 +34,17 @@ enum Actions {
       justify-content: space-evenly;
     }
   `],
-  templateUrl: './user-form.component.html',
 })
 export class AddUserComponent implements OnInit {
-
-  roles = [
-    { value: 'ADMIN', label: 'Administrador' },
-    { value: 'USER', label: 'Usuario' },
-  ]
 
   public ref = inject(DynamicDialogRef)
   private conf = inject(DynamicDialogConfig)
   private msgService = inject(MessageService)
   private usersService = inject(UsersService)
 
-  Actions = Actions
+  readonly Actions = Actions
+  readonly roles = ROLES_OPTIONS
+  
   action!: Actions
 
   userForm = new FormBuilder().group({

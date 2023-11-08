@@ -74,6 +74,9 @@ export class ErrorCheckerDirective implements OnInit, OnDestroy {
       else if (errors?.['notEqual']) {
         errMsg = 'Las contraseñas no coinciden.'
       }
+      else if (errors?.['url']) {
+        errMsg = 'La url no es válida.'
+      }
 
       if (!this.errorElement) {
         this.errorElement = this.renderer.createElement('span')

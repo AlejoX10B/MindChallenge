@@ -5,7 +5,6 @@ import { isLoggedIn, isNotLoggedIn } from './auth/guards/auth.guard';
 
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'users' },
   {
     path: 'auth',
     canActivate: [ isNotLoggedIn ],
