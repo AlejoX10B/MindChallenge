@@ -94,7 +94,7 @@ export class ProfileComponent implements OnInit {
       rejectLabel: 'Cancelar',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.usersService.editUser(form.getRawValue() as FullUserForm)
+        this.usersService.editUser(form.value as FullUserForm)
           .pipe(
             switchMap(() => this.authService.getCurrentUser()),
             takeUntilDestroyed(this.destroyRef)

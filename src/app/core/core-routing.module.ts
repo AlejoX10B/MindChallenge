@@ -18,16 +18,19 @@ const routes: Routes = [
     children: [
       {
         path: 'users',
+        title: 'Ususarios',
         canActivate: [ hasRole([Roles.Super, Roles.Admin]) ],
         component: UsersComponent
       },
       {
         path: 'accounts',
+        title: 'Cuentas',
         canActivate: [ hasRole([Roles.Super, Roles.Admin]) ],
         component: AccountsComponent
       },
       {
         path: 'profile',
+        title: 'Mi usuario',
         component: ProfileComponent
 
       },

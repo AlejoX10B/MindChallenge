@@ -47,7 +47,7 @@ export class UsersService {
   editUser(user: UserForm | FullUserForm): Observable<boolean> {
     const url = `${this._url}/${user.id}`
 
-    return this.http.put(url, user)
+    return this.http.patch(url, user)
       .pipe(
         map(() => true),
         catchError(e => throwError(() => e.error))
