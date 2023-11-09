@@ -55,6 +55,12 @@ const routes: Routes = [
         component: AccDetailComponent
       },
       {
+        path: 'teams',
+        title: 'Equipos',
+        canActivate: [ hasRole([Roles.Super, Roles.Admin]) ],
+        component: TeamsComponent
+      },
+      {
         path: 'profile',
         title: 'Mi usuario',
         component: UserDetailComponent
