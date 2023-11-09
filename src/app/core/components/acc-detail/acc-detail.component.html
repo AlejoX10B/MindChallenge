@@ -1,1 +1,49 @@
-<p>acc-detail works!</p>
+<h1 class="mb-2">{{(action === Actions.Add) ? 'Crear' : 'Detalle de'}} cuenta</h1>
+<h2 class="mb-5">{{ account()?.account }}</h2>
+
+<form [formGroup]="accForm">
+
+    <p-toolbar styleClass="mb-5">
+        <ng-template pTemplate="left">
+            <p-button *ngIf="action === Actions.Edit"
+                      type="button"
+                      icon="pi pi-pencil"
+                      styleClass="mr-3"
+                      label="Editar cuenta"/>
+
+            <p-button *ngIf="true"
+                      type="button"
+                      icon="pi pi-pencil"
+                      styleClass="mr-3"
+                      [label]="(action === Actions.Add) ? 'Guardar cuenta' : 'Guardar cambios'"/>
+        </ng-template>
+    </p-toolbar>
+    
+    <p-fieldset>
+        <div class="field">
+            <label for="account">Account</label>
+            <input pInputText errorChecker type="text" id="account" formControlName="account">
+        </div>
+        
+        <div class="field">
+            <label for="client">Cliente</label>
+            <input pInputText errorChecker type="text" id="client" formControlName="client">
+        </div>
+
+        <div class="field">
+            <label for="supervisor">Supervisor</label>
+            <input pInputText errorChecker type="text" id="supervisor" formControlName="supervisor">
+        </div>
+
+        <div class="field">
+            <label for="team">Equipo</label>
+            <p-dropdown errorChecker
+                        inputId="team"
+                        placeholder="Selecciona un equipo"
+                        optionLabel="name"
+                        optionValue="id"
+                        formControlName="team"
+                        [options]="teams()"/>
+        </div>
+    </p-fieldset>
+</form>

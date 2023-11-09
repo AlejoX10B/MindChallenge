@@ -115,7 +115,7 @@ export class UserDetailComponent implements OnInit {
     const form = this.userForm
 
     if (form.invalid) {
-      markAllAsDirty(this.userForm)
+      markAllAsDirty(form)
       this.msgService.add({
         severity: 'error',
         summary: 'Error!',

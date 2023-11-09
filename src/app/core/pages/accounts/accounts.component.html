@@ -6,7 +6,8 @@
     <ng-template pTemplate="right">
         <p-button label="Crear cuenta"
                   icon="pi pi-plus"
-                  styleClass="mr-2 p-button-success"/>
+                  styleClass="mr-2 p-button-success"
+                  routerLink="./add"/>
 
         <p-button label="Eliminar seleccionados"
                   icon="pi pi-trash"
@@ -42,7 +43,7 @@
             <td>{{ account.account }}</td>
             <td>{{ account.client }}</td>
             <td>{{ account.supervisor }}</td>
-            <td>{{ account.teams[0].name }}</td>
+            <td>{{ account.team.name }}</td>
             <td class="text-center">
                 <p-button type="button" icon="pi pi-eye"
                           size="small" styleClass="mr-3 p-button-rounded"

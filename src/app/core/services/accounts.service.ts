@@ -1,10 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { Observable, catchError, tap, throwError } from 'rxjs';
+import { Observable, catchError, map, tap, throwError } from 'rxjs';
 
 import { environment as env } from '../../../environments/environment';
 
-import { Account } from '../models';
+import { Account, FullAccount } from '../models';
 
 
 @Injectable({
@@ -24,8 +24,16 @@ export class AccountsService {
   getAccounts(): Observable<Account[]> {
     const params = new HttpParams().append('_embed', 'teams')
 
-    return this.http.get<Account[]>(this._url, { params })
+    return this.http.get<FullAccount[]>(this._url, { params })
      .pipe(
+        map(accounts => {
+          return accounts.map(({teams, ...acc}) => {
+            return {
+              ...acc,
+              team: { id: teams[0].id, name: teams[0].name }
+            }
+          })
+        }),
         tap(accounts => this._accounts.set(accounts)),
         catchError(e => throwError(() => e.error))
       )
