@@ -8,15 +8,9 @@ import { of, switchMap } from 'rxjs';
 import { AuthService } from '../../../auth/services/auth.service';
 import { UsersService } from '../../services/users.service';
 
-import { alphabeticValidator, assignRolesOptions, emailValidator, LANG_LEVEL_OPTIONS, markAllAsDirty, ROLES_OPTIONS, urlValidator } from '../../../shared/constants';
+import { Actions, alphabeticValidator, assignRolesOptions, emailValidator, LANG_LEVEL_OPTIONS, markAllAsDirty, ROLES_OPTIONS, urlValidator } from '../../../shared/constants';
 import { Dropdown, User } from '../../../shared/models';
 import { UserForm } from '../../models';
-
-
-enum Actions {
-  Add = 'add',
-  Edit = 'edit',
-}
 
 
 @Component({
@@ -45,11 +39,7 @@ enum Actions {
         flex: 1;
       }
     }
-`],
-  providers: [
-    ConfirmationService,
-    MessageService
-  ]
+  `]
 })
 export class UserDetailComponent implements OnInit {
 

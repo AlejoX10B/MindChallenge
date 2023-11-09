@@ -3,12 +3,15 @@ import { MenuItem } from 'primeng/api';
 
 import { AuthService } from '../../../auth/services/auth.service';
 
-import { Roles, User } from '../../../shared/models';
 import { ROLE_NAMES } from '../../../shared/constants';
+import { Roles, User } from '../../../shared/models';
 
 
 @Component({
   template: `
+    <p-toast/>
+    <p-confirmDialog/>
+    
     <body>
       <aside>
           <header>

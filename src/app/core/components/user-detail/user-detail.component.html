@@ -5,9 +5,6 @@
 
 <h2 *ngIf="userId" class="mb-5">{{ user()?.fullname }}</h2>
 
-<p-toast/>
-<p-confirmDialog/>
-
 <form [formGroup]="userForm" (ngSubmit)="onSave()">
 
     <p-toolbar styleClass="mb-5">

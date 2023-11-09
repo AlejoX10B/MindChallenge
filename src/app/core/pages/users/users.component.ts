@@ -12,10 +12,6 @@ import { Roles, User } from '../../../shared/models';
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
-  providers: [
-    ConfirmationService,
-    MessageService
-  ]
 })
 export class UsersComponent implements OnInit {
 
