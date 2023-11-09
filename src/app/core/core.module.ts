@@ -8,8 +8,7 @@ import { CoreRoutingModule } from './core-routing.module';
 import { HomeComponent } from './pages/home/home.component';
 import { UsersComponent } from './pages/users/users.component';
 import { AccountsComponent } from './pages/accounts/accounts.component';
-import { AddUserComponent } from './components/user-form/user-form.component';
-import { ProfileComponent } from './pages/profile/profile.component';
+import { UserDetailComponent } from './components/user-detail/user-detail.component';
 
 import { ErrorCheckerDirective } from '../shared/directives/error-checker.directive';
 
@@ -20,8 +19,7 @@ import { ErrorCheckerDirective } from '../shared/directives/error-checker.direct
     HomeComponent,
     UsersComponent,
     AccountsComponent,
-    AddUserComponent,
-    ProfileComponent,
+    UserDetailComponent,
   ],
   imports: [
     CommonModule,

@@ -1,4 +1,9 @@
-<h1 class="mb-5">Mi usuario</h1>
+<ng-container [ngSwitch]="action">
+    <h1 *ngSwitchCase="Actions.Add" class="mb-5">Crear usuario</h1>
+    <h1 *ngSwitchCase="Actions.Edit" class="mb-2">{{(userId) ? 'Detalle de usuario' : 'Mi usuario'}}</h1>
+</ng-container>
+
+<h2 *ngIf="userId" class="mb-5">{{ user()?.fullname }}</h2>
 
 <p-toast/>
 <p-confirmDialog/>
@@ -7,10 +12,18 @@
 
     <p-toolbar styleClass="mb-5">
         <ng-template pTemplate="left">
+            <p-button *ngIf="action === Actions.Edit && userForm.disabled"
+                      type="button"
+                      icon="pi pi-pencil"
+                      styleClass="mr-3"
+                      [label]="(userId) ? 'Editar usuario' : 'Editar mi perfil'"
+                      (onClick)="onEdit()"/>
+
             <p-button *ngIf="userForm.enabled"
-                    type="submit"
-                    icon="pi pi-save"
-                    label="Guardar cambios"/>
+                      type="submit"
+                      icon="pi pi-save"
+                      styleClass="p-button-success"
+                      [label]="(action === Actions.Add) ? 'Guardar usuario' : 'Guardar cambios'"/>
         </ng-template>
     </p-toolbar>
 

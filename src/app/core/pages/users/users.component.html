@@ -11,7 +11,7 @@
                   icon="pi pi-plus"
                   styleClass="mr-2 p-button-success"
                   [disabled]="isRestricted()"
-                  (onClick)="addOrEditUser(null)"/>
+                  routerLink="./add"/>
 
         <p-button label="Eliminar seleccionados"
                   icon="pi pi-trash"
@@ -50,16 +50,14 @@
             <td>{{ user.email }}</td>
             <td>{{ user.role }}</td>
             <td class="text-center">
-                <p-button type="button" icon="pi pi-pencil"
+                <p-button type="button" icon="pi pi-eye"
                           size="small" styleClass="mr-3 p-button-rounded"
-                          [disabled]="user.role === Roles.Super"
-                          (onClick)="addOrEditUser(user)">
-                </p-button>
+                          [routerLink]="['/user', user.id]"/>
+                          
                 <p-button type="button" icon="pi pi-trash"
                           size="small" styleClass="p-button-rounded p-button-warning"
                           [disabled]="user.role === Roles.Super"
-                          (onClick)="deleteUser(user)">
-                </p-button>
+                          (onClick)="deleteUser(user)"/>
             </td>
         </tr>
     </ng-template>

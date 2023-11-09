@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, provideRouter, withComponentInputBinding } from '@angular/router';
 
+import { hasRole } from './guards/roles.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { UsersComponent } from './pages/users/users.component';
 import { AccountsComponent } from './pages/accounts/accounts.component';
-import { ProfileComponent } from './pages/profile/profile.component';
-import { hasRole } from './guards/roles.guard';
+import { UserDetailComponent } from './components/user-detail/user-detail.component';
 
 import { Roles } from '../shared/models';
 
@@ -18,9 +18,21 @@ const routes: Routes = [
     children: [
       {
         path: 'users',
-        title: 'Ususarios',
+        title: 'Usuarios',
         canActivate: [ hasRole([Roles.Super, Roles.Admin]) ],
         component: UsersComponent
+      },
+      {
+        path: 'users/add',
+        title: 'Crear usuario',
+        canActivate: [ hasRole([Roles.Super, Roles.Admin ])],
+        component: UserDetailComponent
+      },
+      {
+        path: 'user/:userId',
+        title: 'Detalle de usuario',
+        canActivate: [ hasRole([Roles.Super, Roles.Admin ])],
+        component: UserDetailComponent
       },
       {
         path: 'accounts',
@@ -31,7 +43,7 @@ const routes: Routes = [
       {
         path: 'profile',
         title: 'Mi usuario',
-        component: ProfileComponent
+        component: UserDetailComponent
 
       },
       { path: '**', redirectTo: 'users' }
@@ -42,6 +54,9 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+    provideRouter(routes, withComponentInputBinding())
+  ]
 })
 export class CoreRoutingModule { }

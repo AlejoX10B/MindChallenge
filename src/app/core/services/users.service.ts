@@ -7,7 +7,7 @@ import { environment as env } from '../../../environments/environment';
 import { AuthService } from '../../auth/services/auth.service';
 
 import { User } from '../../shared/models';
-import { FullUserForm, UserForm } from '../models';
+import { UserForm } from '../models';
 
 
 @Injectable({
@@ -44,7 +44,7 @@ export class UsersService {
       )
   }
 
-  editUser(user: UserForm | FullUserForm): Observable<boolean> {
+  editUser(user: UserForm): Observable<boolean> {
     const url = `${this._url}/${user.id}`
 
     return this.http.patch(url, user)

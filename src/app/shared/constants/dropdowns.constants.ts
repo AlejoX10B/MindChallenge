@@ -1,4 +1,4 @@
-import { Dropdown } from '../models'
+import { Dropdown, Roles, User } from '../models'
 
 
 export const ROLE_NAMES = new Map([
@@ -27,3 +27,8 @@ export const LANG_LEVEL_OPTIONS: Dropdown[] = [
     { value: 'C1', label: 'C1' },
     { value: 'C2', label: 'Nativo' }
 ]
+
+
+export function assignRolesOptions(user: User) {
+    return (user?.role === Roles.Super) ? FULL_ROLES_OPTIONS : ROLES_OPTIONS
+}

@@ -1,11 +1,9 @@
 import { Component, DestroyRef, OnInit, computed, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { DialogService } from 'primeng/dynamicdialog';
 
 import { AuthService } from '../../../auth/services/auth.service';
 import { UsersService } from '../../services/users.service';
-import { AddUserComponent } from '../../components/user-form/user-form.component';
 
 import { Roles, User } from '../../../shared/models';
 
@@ -16,7 +14,6 @@ import { Roles, User } from '../../../shared/models';
   styleUrls: ['./users.component.scss'],
   providers: [
     ConfirmationService,
-    DialogService,
     MessageService
   ]
 })
@@ -25,7 +22,6 @@ export class UsersComponent implements OnInit {
   private authService = inject(AuthService)
   private confirmService = inject(ConfirmationService)
   private destroyRef = inject(DestroyRef)
-  private dialogService = inject(DialogService)
   private msgService = inject(MessageService)
   private usersService = inject(UsersService)
 
@@ -60,17 +56,6 @@ export class UsersComponent implements OnInit {
 
   isSuper(data: User) {
     return data.role === Roles.Super
-  }
-
-  addOrEditUser(user: User | null) {
-    const ref = this.dialogService.open(AddUserComponent, {
-      header: `${(user == null) ? 'Añadir nuevo' : 'Editar'} usuario`,
-      maximizable: false,
-      width: '50%',
-      data: user,
-    })
-
-    ref.onClose.subscribe((val) => {if (val) this._getUsers() })
   }
 
   deleteSelectedUsers() {
