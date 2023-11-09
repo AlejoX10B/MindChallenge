@@ -5,9 +5,12 @@ export enum Roles {
     User = 'USER'
 }
 
-export interface User {
+export interface MinUser {
     id:         number;
     fullname:   string;
+}
+
+export interface User extends MinUser {
     email:      string;
     password:   string;
     role:       Roles;

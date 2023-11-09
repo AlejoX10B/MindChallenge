@@ -1,1 +1,64 @@
-<p>accounts works!</p>
+<!-- eslint-disable @angular-eslint/template/elements-content -->
+
+<h1 class="mb-5">Cuentas</h1>
+
+<p-toast/>
+<p-confirmDialog/>
+
+<p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="right">
+        <p-button label="Crear cuenta"
+                  icon="pi pi-plus"
+                  styleClass="mr-2 p-button-success"/>
+
+        <p-button label="Eliminar seleccionados"
+                  icon="pi pi-trash"
+                  styleClass="p-button-danger"/>
+    </ng-template>
+</p-toolbar>
+
+<p-table dataKey="id"
+         [value]="accounts()"
+         [rows]="4"
+         [paginator]="true"
+         [rowHover]="true"
+         [rowSelectable]="">
+    <ng-template pTemplate="header">
+        <tr>
+            <th class="w-4rem">
+                <p-tableHeaderCheckbox/>
+            </th>
+            <th>Id</th>
+            <th>Cuenta</th>
+            <th>Cliente</th>
+            <th>Supervisor</th>
+            <th>Equipo</th>
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-account>
+        <tr>
+            <td>
+                <p-tableCheckbox [value]="account" [disabled]=""/>
+            </td>
+            <td>{{ account.id }}</td>
+            <td>{{ account.account }}</td>
+            <td>{{ account.client }}</td>
+            <td>{{ account.supervisor }}</td>
+            <td>{{ account.teams[0].name }}</td>
+            <td class="text-center">
+                <p-button type="button" icon="pi pi-eye"
+                          size="small" styleClass="mr-3 p-button-rounded"
+                          [routerLink]="['/account', account.id]"/>
+                          
+                <p-button type="button" icon="pi pi-trash"
+                          size="small" styleClass="p-button-rounded p-button-warning"/>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+        <div>En total hay {{ accounts() ? accounts()!.length : 0 }} usuarios.</div>
+    </ng-template>
+</p-table>
+
+<pre>{{ accounts() | json }}</pre>

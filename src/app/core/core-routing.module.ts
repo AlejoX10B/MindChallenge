@@ -4,7 +4,9 @@ import { RouterModule, Routes, provideRouter, withComponentInputBinding } from '
 import { hasRole } from './guards/roles.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { UsersComponent } from './pages/users/users.component';
+import { TeamsComponent } from './pages/teams/teams.component';
 import { AccountsComponent } from './pages/accounts/accounts.component';
+import { AccDetailComponent } from './components/acc-detail/acc-detail.component';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
 
 import { Roles } from '../shared/models';
@@ -39,6 +41,18 @@ const routes: Routes = [
         title: 'Cuentas',
         canActivate: [ hasRole([Roles.Super, Roles.Admin]) ],
         component: AccountsComponent
+      },
+      {
+        path: 'accounts/add',
+        title: 'Crear cuenta',
+        canActivate: [ hasRole([Roles.Super, Roles.Admin]) ],
+        component: AccDetailComponent
+      },
+      {
+        path: 'account/:accId',
+        title: 'Detalle de cuenta',
+        canActivate: [ hasRole([Roles.Super, Roles.Admin]) ],
+        component: AccDetailComponent
       },
       {
         path: 'profile',

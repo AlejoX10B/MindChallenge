@@ -8,7 +8,9 @@ import { CoreRoutingModule } from './core-routing.module';
 import { HomeComponent } from './pages/home/home.component';
 import { UsersComponent } from './pages/users/users.component';
 import { AccountsComponent } from './pages/accounts/accounts.component';
+import { TeamsComponent } from './pages/teams/teams.component';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
+import { AccDetailComponent } from './components/acc-detail/acc-detail.component';
 
 import { ErrorCheckerDirective } from '../shared/directives/error-checker.directive';
 
@@ -19,7 +21,9 @@ import { ErrorCheckerDirective } from '../shared/directives/error-checker.direct
     HomeComponent,
     UsersComponent,
     AccountsComponent,
+    TeamsComponent,
     UserDetailComponent,
+    AccDetailComponent,
   ],
   imports: [
     CommonModule,

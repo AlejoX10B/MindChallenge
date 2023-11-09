@@ -51,23 +51,19 @@ export class HomeComponent {
       routerLink: '/accounts',
       disabled: this._isRestricted()
     },
-    /* {
-      label: 'Movimientos',
-      icon: 'pi pi-fw pi-calendar',
-      routerLink: '/',
-      disabled: this._isRestricted()
-    }, */
     {
-      separator: true
+      label: 'Equipos',
+      icon: 'pi pi-fw pi-sitemap',
+      routerLink: '/teams',
+      disabled: this._isRestricted()
     },
+    { separator: true },
     {
       label: 'Mi usuario',
       icon: 'pi pi-fw pi-user',
       routerLink: '/profile'
     },
-    {
-      separator: true
-    },
+    { separator: true },
     {
       label: 'Cerrar sesión',
       icon: 'pi pi-fw pi-power-off',
