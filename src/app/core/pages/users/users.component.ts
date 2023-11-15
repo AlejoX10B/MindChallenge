@@ -5,6 +5,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuthService } from '../../../auth/services/auth.service';
 import { UsersService } from '../../services/users.service';
 
+import { ROLE_NAMES } from '../../../shared/constants';
 import { Roles, User } from '../../../shared/models';
 
 
@@ -23,6 +24,7 @@ export class UsersComponent implements OnInit {
 
 
   readonly Roles = Roles
+  readonly ROLE_NAMES = ROLE_NAMES
   
   users = computed<User[]>(() => this.usersService.users())
   isRestricted = computed<boolean>(() => this.authService.isRestricted())

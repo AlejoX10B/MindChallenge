@@ -64,7 +64,6 @@ const routes: Routes = [
         path: 'profile',
         title: 'Mi usuario',
         component: UserDetailComponent
-
       },
       { path: '**', redirectTo: 'users' }
     ]

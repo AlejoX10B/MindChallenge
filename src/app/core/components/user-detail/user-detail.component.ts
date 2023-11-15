@@ -9,7 +9,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { UsersService } from '../../services/users.service';
 
 import { Actions, alphabeticValidator, assignRolesOptions, emailValidator, LANG_LEVEL_OPTIONS, markAllAsDirty, ROLES_OPTIONS, urlValidator } from '../../../shared/constants';
-import { Dropdown, User } from '../../../shared/models';
+import { Dropdown, Roles, User } from '../../../shared/models';
 import { UserForm } from '../../models';
 
 
@@ -44,6 +44,7 @@ import { UserForm } from '../../models';
 export class UserDetailComponent implements OnInit {
 
   readonly Actions = Actions
+  readonly Roles = Roles
   readonly langLevels = LANG_LEVEL_OPTIONS
   
   private authService = inject(AuthService)

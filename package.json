@@ -7,7 +7,8 @@
     "start:local": "ng serve --host=0.0.0.0 --disable-host-check",
     "build": "ng build",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "start:back": "json-server --watch database/db.json"
   },
   "private": true,
   "dependencies": {

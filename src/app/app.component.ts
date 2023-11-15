@@ -28,8 +28,6 @@ export class AppComponent implements OnInit {
       this.router.navigateByUrl('/auth')
       return
     }
-
-    this.router.navigateByUrl('/')
   })
   
 

@@ -13,6 +13,7 @@
                       type="button"
                       icon="pi pi-pencil"
                       styleClass="mr-3"
+                      [disabled]="user()?.role === Roles.Super"
                       [label]="(userId) ? 'Editar usuario' : 'Editar mi perfil'"
                       (onClick)="onEdit()"/>
 

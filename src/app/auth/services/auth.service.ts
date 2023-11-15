@@ -17,11 +17,11 @@ export class AuthService {
   private http = inject(HttpClient)
 
   private _user = signal<User | null>(null)
-  private _authStatus = signal<AuthStatus>(AuthStatus.NotAuthenticated)
+  private _authStatus = signal<AuthStatus>(AuthStatus.LoadingAuth)
   
   currentUser = computed(() => this._user())
   authStatus = computed(() => this._authStatus())
-  isRestricted = computed(() => this._user()?.role !== Roles.Super)
+  isRestricted = computed(() => this._user()?.role === Roles.User)
 
 
   constructor() {
