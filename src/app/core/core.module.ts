@@ -14,6 +14,7 @@ import { UserDetailComponent } from './components/user-detail/user-detail.compon
 import { AccDetailComponent } from './components/acc-detail/acc-detail.component';
 
 import { ErrorCheckerDirective } from '../shared/directives/error-checker.directive';
+import { TeamDetailComponent } from './components/team-detail/team-detail.component';
 
 
 
@@ -25,6 +26,7 @@ import { ErrorCheckerDirective } from '../shared/directives/error-checker.direct
     TeamsComponent,
     UserDetailComponent,
     AccDetailComponent,
+    TeamDetailComponent,
   ],
   imports: [
     CommonModule,

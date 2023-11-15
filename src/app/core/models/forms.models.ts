@@ -14,3 +14,17 @@ export interface UserForm {
     knowledge:  string | null;
     link:       string | null;
 }
+
+
+export interface TeamMember {
+    userId:     number | null;
+    startDate:  Date | null;
+    endDate:    Date | null;
+}
+
+
+export interface TeamForm {
+    id:       number | null;
+    name:     string | null;
+    users:    TeamMember[];
+}

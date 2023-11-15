@@ -1,4 +1,4 @@
-import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormArray, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 
 const ALPHABETIC_REGEX = new RegExp('^[a-záéíóúñü\\s]+$', 'i')
@@ -57,11 +57,37 @@ export function equalPasswordValidator() {
   }
 }
 
+export function datesRangeValidator() {
+  return (formGroup: FormGroup): ValidationErrors | null => {
+    const startDate = formGroup.get('startDate')?.value
+    const endDate = formGroup.get('endDate')?.value
+
+    if ((startDate && endDate) && (startDate > endDate)) {
+      formGroup.get('endDate')?.setErrors({ dates: true })
+      return null
+    }
+
+    return null
+  }
+}
+
 
 // Mark all fields as dirty with PrimeNg Fields
 
-export function markAllAsDirty(form: FormGroup) {
-  Object.keys(form.controls).forEach((key) => {
-    form.get(key)?.markAsDirty();
-  });
+export function markAllAsDirty(form: FormGroup | FormArray | AbstractControl) { 
+
+  if (form instanceof FormGroup) {
+    Object.keys(form.controls).forEach((key) => {
+      const control = form.get(key)
+
+      if (control) markAllAsDirty(control)
+    })
+  }
+  else if (form instanceof FormArray) {
+    form.controls.forEach((control) => markAllAsDirty(control))
+  }
+  else if (form instanceof AbstractControl) {
+    form.markAsDirty();
+  }
+
 }

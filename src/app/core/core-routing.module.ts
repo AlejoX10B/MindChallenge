@@ -10,6 +10,7 @@ import { AccDetailComponent } from './components/acc-detail/acc-detail.component
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
 
 import { Roles } from '../shared/models';
+import { TeamDetailComponent } from './components/team-detail/team-detail.component';
 
 
 const routes: Routes = [
@@ -59,6 +60,18 @@ const routes: Routes = [
         title: 'Equipos',
         canActivate: [ hasRole([Roles.Super, Roles.Admin]) ],
         component: TeamsComponent
+      },
+      {
+        path: 'teams/add',
+        title: 'Crear equipo',
+        canActivate: [ hasRole([Roles.Super, Roles.Admin]) ],
+        component: TeamDetailComponent
+      },
+      {
+        path: 'team/:teamId',
+        title: 'Detalle de equipo',
+        canActivate: [ hasRole([Roles.Super, Roles.Admin]) ],
+        component: TeamDetailComponent
       },
       {
         path: 'profile',

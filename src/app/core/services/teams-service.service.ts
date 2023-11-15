@@ -1,10 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { Observable, catchError, tap, throwError } from 'rxjs';
+import { Observable, catchError, map, tap, throwError } from 'rxjs';
 
 import { environment as env } from '../../../environments/environment';
 
-import { Team } from '../models';
+import { Team, TeamForm } from '../models';
 
 
 @Injectable({
@@ -27,6 +27,14 @@ export class TeamsService {
     return this.http.get<Team[]>(this._url, { params })
      .pipe(
         tap(teams => this._teams.set(teams)),
+        catchError(e => throwError(() => e.error))
+      )
+  }
+
+  addTeam(team: TeamForm): Observable<number> {
+    return this.http.post<Team>(this._url, { name: team.name })
+      .pipe(
+        map((team) => team.id),
         catchError(e => throwError(() => e.error))
       )
   }

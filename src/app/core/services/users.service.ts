@@ -7,7 +7,7 @@ import { environment as env } from '../../../environments/environment';
 import { AuthService } from '../../auth/services/auth.service';
 
 import { User } from '../../shared/models';
-import { UserForm } from '../models';
+import { TeamMember, UserForm } from '../models';
 
 
 @Injectable({
@@ -66,6 +66,26 @@ export class UsersService {
 
   deleteUsers(userIds: number[]) {
     const obs = userIds.map(id => this.deleteUser(id))
+    return forkJoin(obs)
+  }
+
+  //
+
+  addUserToTeam(member: TeamMember, teamId: number) : Observable<boolean> {
+    const url = `${this._url}/${member.userId}`
+    const body = { teamId, startDate: member.startDate, endDate: member.endDate }
+
+    return this.http.patch(url, body)
+      .pipe(
+        map(() => true),
+        catchError(e => throwError(() => e.error))
+      )
+  }
+
+  editUsers(members: TeamMember[], teamId: number) {
+    const obs = members.map(person => {
+      return this.addUserToTeam(person, teamId)
+    })
     return forkJoin(obs)
   }
 

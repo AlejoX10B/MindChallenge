@@ -14,4 +14,5 @@ export interface User extends MinUser {
     email:      string;
     password:   string;
     role:       Roles;
+    teamId?:    number | null;
 }

@@ -1,12 +1,11 @@
-<!-- eslint-disable @angular-eslint/template/elements-content -->
-
 <h1 class="mb-5">Equipos</h1>
 
 <p-toolbar styleClass="mb-4 gap-2">
     <ng-template pTemplate="right">
-        <p-button label="Crear equipos"
+        <p-button label="Crear equipo"
                   icon="pi pi-plus"
-                  styleClass="mr-2 p-button-success"/>
+                  styleClass="mr-2 p-button-success"
+                  routerLink="./add"/>
 
         <p-button label="Eliminar seleccionados"
                   icon="pi pi-trash"
@@ -14,9 +13,7 @@
     </ng-template>
 </p-toolbar>
 
-<pre>{{ teams() | json }}</pre>
-
-<!-- <p-table dataKey="id"
+<p-table dataKey="id"
          [value]="teams()"
          [rows]="4"
          [paginator]="true"
@@ -29,8 +26,8 @@
             </th>
             <th>Id</th>
             <th>Equipo</th>
-            <th>Email</th>
-            <th>Role</th>
+            <th>No. Integrantes</th>
+            <th>Cuenta asociada</th>
             <th></th>
         </tr>
     </ng-template>
@@ -41,11 +38,14 @@
             </td>
             <td>{{ teams.id }}</td>
             <td>{{ teams.name }}</td>
-            <td>{{ teams.email }}</td>
-            <td>{{ teams.role }}</td>
+            <td>{{ teams.users.length }} integrantes</td>
+            <td>{{ teams.accountId || '-' }}</td>
             <td class="text-center">
-                <p-button type="button" icon="pi pi-eye"
-                          size="small" styleClass="mr-3 p-button-rounded"/>
+                <p-button type="button"
+                          icon="pi pi-eye"
+                          size="small"
+                          styleClass="mr-3 p-button-rounded"
+                          [routerLink]="['/team', teams.id]"/>
                           
                 <p-button type="button" icon="pi pi-trash"
                           size="small" styleClass="p-button-rounded p-button-warning"/>
@@ -53,6 +53,6 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="summary">
-        <div>En total hay {{ teams() ? teams()!.length : 0 }} usuarios.</div>
+        <div>En total hay {{ teams() ? teams()!.length : 0 }} equipos.</div>
     </ng-template>
-</p-table> -->
+</p-table>
