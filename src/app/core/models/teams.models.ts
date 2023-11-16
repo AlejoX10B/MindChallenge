@@ -1,4 +1,4 @@
-import { MinUser } from '../../shared/models';
+import { User } from '../../shared/models';
 
 
 export interface MinTeam {
@@ -8,5 +8,5 @@ export interface MinTeam {
 
 export interface Team extends MinTeam {
     accountId:  string;
-    users:      MinUser[]
+    users:      User[]
 }

@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { Observable, catchError, forkJoin, map, tap, throwError } from 'rxjs';
+import { Observable, catchError, forkJoin, map, of, switchMap, tap, throwError } from 'rxjs';
 
 import { environment as env } from '../../../environments/environment';
 
@@ -71,9 +71,13 @@ export class UsersService {
 
   //
 
-  addUserToTeam(member: TeamMember, teamId: number) : Observable<boolean> {
+  addUserToTeam(member: TeamMember, teamId: number | null) : Observable<boolean> {
     const url = `${this._url}/${member.userId}`
-    const body = { teamId, startDate: member.startDate, endDate: member.endDate }
+    const body = {
+      teamId: teamId,
+      startDate: member.startDate,
+      endDate: member.endDate
+    }
 
     return this.http.patch(url, body)
       .pipe(
@@ -82,11 +86,16 @@ export class UsersService {
       )
   }
 
-  editUsers(members: TeamMember[], teamId: number) {
+  editUsers(members: TeamMember[], teamId: number | null): Observable<boolean> {
+    if (members.length == 0) return of(true)
+
     const obs = members.map(person => {
       return this.addUserToTeam(person, teamId)
     })
-    return forkJoin(obs)
+
+    return forkJoin(obs).pipe(
+      switchMap(results => of(results.every(value => value)))
+    )
   }
 
 }

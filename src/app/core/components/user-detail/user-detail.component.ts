@@ -131,11 +131,11 @@ export class UserDetailComponent implements OnInit {
       acceptLabel: (this.action === Actions.Add) ? 'Crear' : 'Guardar',
       rejectLabel: 'Cancelar',
       icon: 'pi pi-exclamation-triangle',
-      accept: () => this.executeAPICalls()
+      accept: () => this._executeAPICalls()
     })
   }
 
-  executeAPICalls() {
+  private _executeAPICalls() {
     const actions = {
       add: () => this.usersService.addUser(this.userForm.value as UserForm),
       edit: () => this.usersService.editUser(this.userForm.value as UserForm),

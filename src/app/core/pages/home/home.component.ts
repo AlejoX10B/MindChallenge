@@ -49,15 +49,15 @@ export class HomeComponent {
       disabled: this._isRestricted()
     },
     {
-      label: 'Cuentas',
-      icon: 'pi pi-fw pi-star',
-      routerLink: '/accounts',
-      disabled: this._isRestricted()
-    },
-    {
       label: 'Equipos',
       icon: 'pi pi-fw pi-sitemap',
       routerLink: '/teams',
+      disabled: this._isRestricted()
+    },
+    {
+      label: 'Cuentas',
+      icon: 'pi pi-fw pi-star',
+      routerLink: '/accounts',
       disabled: this._isRestricted()
     },
     { separator: true },

@@ -23,7 +23,7 @@ export class ErrorCheckerDirective implements OnInit, OnDestroy {
   ngOnInit() {
     const control = this._findFormControl()
     if (!control) {
-      console.error('No se pudo encontrar el control en el formulario.')
+      console.warn('No se pudo encontrar el control en el formulario.')
       return
     }
 

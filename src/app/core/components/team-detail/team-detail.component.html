@@ -1,21 +1,24 @@
-<h1 class="mb-2">{{(true) ? 'Crear' : 'Detalle de'}} equipo</h1>
-<h2 class="mb-5">{{ 'Team' }}</h2>
+<header class="mb-5">
+    <h1 class="mb-2">{{(action === Actions.Add) ? 'Crear' : 'Detalle de'}} equipo</h1>
+    <h2 *ngIf="action === Actions.Edit">{{ team()?.name }}</h2>
+</header>
 
 <form [formGroup]="teamForm" (ngSubmit)="onSubmit()">
 
     <p-toolbar styleClass="mb-5">
         <ng-template pTemplate="left">
-            <p-button *ngIf="true"
+            <p-button *ngIf="action === Actions.Edit && teamForm.disabled"
                       type="button"
                       icon="pi pi-pencil"
                       styleClass="mr-3"
-                      label="Editar equipo"/>
+                      label="Editar equipo"
+                      (onClick)="teamForm.enable()"/>
 
-            <p-button *ngIf="true"
+            <p-button *ngIf="teamForm.enabled"
                       type="submit"
                       icon="pi pi-pencil"
                       styleClass="mr-3"
-                      [label]="(true) ? 'Guardar equipo' : 'Guardar cambios'"/>
+                      [label]="(action === Actions.Add) ? 'Guardar equipo' : 'Guardar cambios'"/>
         </ng-template>
     </p-toolbar>
     
@@ -30,7 +33,12 @@
         <div class="field">
             <div class="members mb-4">
                 <label for="members">Conforma tu equipo con tantas personas como necesites.</label>
-                <p-button id="members" icon="pi pi-plus" type="button" pTooltip="Agregar persona" (onClick)="addMember()"/>
+                <p-button id="members"
+                          icon="pi pi-plus"
+                          type="button"
+                          pTooltip="Agregar persona"
+                          [disabled]="teamForm.disabled"
+                          (onClick)="addMember()"/>
             </div>
             
             <div formArrayName="users">
@@ -42,6 +50,8 @@
                                     optionLabel="fullname"
                                     optionValue="id"
                                     formControlName="userId"
+                                    filterBy="fullname"
+                                    [filter]="true"
                                     [options]="users()"/>
 
                         <p-calendar errorChecker
@@ -60,6 +70,7 @@
                                   icon="pi pi-trash"
                                   styleClass="ml-4 p-button-danger"
                                   pTooltip="Eliminar persona"
+                                  [disabled]="teamForm.disabled"
                                   (onClick)="deleteMember(i)"/>
                     </div>
                 </div>
