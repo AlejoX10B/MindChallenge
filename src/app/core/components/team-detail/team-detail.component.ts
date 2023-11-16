@@ -1,4 +1,4 @@
-import { Component, DestroyRef, Input, OnInit, computed, effect, inject } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, computed, effect, inject, signal } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -7,6 +7,7 @@ import { TeamsService } from '../../services/teams-service.service';
 import { UsersService } from '../../services/users.service';
 
 import { Actions, datesRangeValidator, markAllAsDirty } from '../../../shared/constants';
+import { MinUser } from '../../../shared/models';
 import { TeamForm } from '../../models';
 
 
@@ -71,7 +72,12 @@ export class TeamDetailComponent implements OnInit {
     return this.teamForm.get('users') as FormArray
   }
 
-  users = computed(() => this.usersService.users()
+  usersEffect = computed<MinUser[]>(() => this.usersService.users()
+    .filter((user) => user?.teamId == null || user?.teamId == this.teamId)
+    .map((user) => ({ id: user?.id, fullname: user?.fullname }))
+  )
+
+  users = signal<MinUser[]>(this.usersService.users()
     .filter((user) => user?.teamId == null || user?.teamId == this.teamId)
     .map((user) => ({ id: user?.id, fullname: user?.fullname }))
   )
@@ -111,7 +117,6 @@ export class TeamDetailComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe()
 
-
     if (this.teamId) {
       this.action = Actions.Edit
       return
@@ -135,6 +140,10 @@ export class TeamDetailComponent implements OnInit {
 
       this.members.push(memberForm)
     })
+  }
+
+  onSelectUser(selUser: MinUser) {
+    this.users.update(users => users.filter(user => user.id !== selUser.id))
   }
 
   addMember() {

@@ -9,6 +9,7 @@
 
         <p-button label="Eliminar seleccionados"
                   icon="pi pi-trash"
+                  [disabled]="selectedTeams.length <= 0"
                   styleClass="p-button-danger"/>
     </ng-template>
 </p-toolbar>
@@ -18,7 +19,7 @@
          [rows]="4"
          [paginator]="true"
          [rowHover]="true"
-         [rowSelectable]="">
+         [(selection)]="selectedTeams">
     <ng-template pTemplate="header">
         <tr>
             <th class="w-4rem">
@@ -31,24 +32,27 @@
             <th></th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-teams>
+    <ng-template pTemplate="body" let-team>
         <tr>
             <td>
-                <p-tableCheckbox [value]="teams" [disabled]=""/>
+                <p-tableCheckbox [value]="team"/>
             </td>
-            <td>{{ teams.id }}</td>
-            <td>{{ teams.name }}</td>
-            <td>{{ teams.users.length }} integrantes</td>
-            <td>{{ teams.accountId || '-' }}</td>
+            <td>{{ team.id }}</td>
+            <td>{{ team.name }}</td>
+            <td>{{ team.users.length }} integrantes</td>
+            <td>{{ team.accountId || '-' }}</td>
             <td class="text-center">
                 <p-button type="button"
                           icon="pi pi-eye"
                           size="small"
                           styleClass="mr-3 p-button-rounded"
-                          [routerLink]="['/team', teams.id]"/>
+                          [routerLink]="['/team', team.id]"/>
                           
-                <p-button type="button" icon="pi pi-trash"
-                          size="small" styleClass="p-button-rounded p-button-warning"/>
+                <p-button type="button"
+                          icon="pi pi-trash"
+                          size="small"
+                          styleClass="p-button-rounded p-button-warning"
+                          (onClick)="deleteTeam(team)"/>
             </td>
         </tr>
     </ng-template>

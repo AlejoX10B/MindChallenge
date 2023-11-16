@@ -89,9 +89,7 @@ export class UsersService {
   editUsers(members: TeamMember[], teamId: number | null): Observable<boolean> {
     if (members.length == 0) return of(true)
 
-    const obs = members.map(person => {
-      return this.addUserToTeam(person, teamId)
-    })
+    const obs = members.map(person => this.addUserToTeam(person, teamId))
 
     return forkJoin(obs).pipe(
       switchMap(results => of(results.every(value => value)))

@@ -8,7 +8,7 @@ import { TeamsService } from '../../services/teams-service.service';
 
 import { Actions, markAllAsDirty } from '../../../shared/constants';
 
-import { Account, MinTeam, Team } from '../../models';
+import { Account, MinTeam } from '../../models';
 
 
 @Component({

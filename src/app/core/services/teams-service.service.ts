@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { Observable, catchError, map, switchMap, tap, throwError } from 'rxjs';
+import { Observable, catchError, forkJoin, of, switchMap, tap, throwError } from 'rxjs';
 
 import { environment as env } from '../../../environments/environment';
 
@@ -51,7 +51,7 @@ export class TeamsService {
       )
   }
 
-  editTeam(oldTeam: TeamForm, newTeam: TeamForm) {
+  editTeam(oldTeam: TeamForm, newTeam: TeamForm): Observable<boolean> {
     const delMembers = oldTeam.users
       .filter(oldMem => !newTeam.users.find(newMem => newMem.userId === oldMem.userId))
       .map(member => ({ userId: member.userId, startDate: null, endDate: null, teamId: null }))
@@ -67,6 +67,27 @@ export class TeamsService {
         switchMap(() => this.usersService.editUsers(addMembers, newTeam.id)),
         catchError(e => throwError(() => e.error))
       )
+  }
+
+  deleteTeam(team: Team): Observable<boolean> {
+    const url = `${this._url}/${team.id}`
+
+    const delMembers = team.users
+      .map(member => ({ userId: member.id, startDate: null, endDate: null, teamId: null }))
+
+    return this.http.delete(url)
+      .pipe(
+        switchMap(() => this.usersService.editUsers(delMembers, null)),
+        catchError(e => throwError(() => e.error))
+      )
+  }
+
+  deleteTeams(teams: Team[]): Observable<boolean> {
+    const obs = teams.map(team => this.deleteTeam(team))
+
+    return forkJoin(obs).pipe(
+      switchMap(results => of(results.every(value => value)))
+    )
   }
   
 }
