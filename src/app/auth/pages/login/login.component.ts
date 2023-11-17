@@ -47,8 +47,8 @@ export class LoginComponent {
 
 
   loginForm = new FormBuilder().group({
-    username: [null, [Validators.required, emailValidator()]],
-    password: [null, [Validators.required]]
+    username: ['', [Validators.required, emailValidator()]],
+    password: ['', [Validators.required]]
   })
 
   login() {
@@ -57,7 +57,8 @@ export class LoginComponent {
       this.msgService.add({
         severity: 'error',
         summary: 'Error!',
-        detail: 'Revisa los datos del formulario'
+        detail: 'Revisa los datos del formulario',
+        life: 10000
       })
       return
     }
